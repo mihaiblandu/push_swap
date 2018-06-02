@@ -25,12 +25,12 @@ node* create(int data,node* next)
     node* new_node = (node*)malloc(sizeof(node));
     if(new_node == NULL)
     {
-        printf("Error creating a new node.\n");
+        //printf("Error creating a new node.\n");
         exit(0);
     }
     new_node->data = data;
     new_node->next = next;
- 
+
     return new_node;
 }
 
@@ -43,7 +43,7 @@ node* insert_after(node *head, int data, node* prev)
     node *cursor = head;
     while(cursor != prev)
         cursor = cursor->next;
- 
+
     if(cursor != NULL)
     {
         node* new_node = create(data,cursor->next);
@@ -56,30 +56,33 @@ node* insert_after(node *head, int data, node* prev)
     }
 }
 
-node* prepend(node* head,int data)
+void prepend(node** head,int data)
 {
-    node* new_node = create(data,head);
-    head = new_node;
-    return head;
+    node* new_node = create(data,*head);
+    *head = new_node;
 }
 
-node* append(node* head, int data)
+void append(node** head, int data)
 {
+
+	if (!*head)
+	{
+		*head = create(data, NULL);
+		return;
+	}
     /* go to the last node */
-    node *cursor = head;
+    node *cursor = *head;
     while(cursor->next != NULL)
         cursor = cursor->next;
- 
+
     /* create a new node */
     node* new_node =  create(data,NULL);
     cursor->next = new_node;
- 
-    return head;
 }
 
 node* search(node* head,int data)
 {
- 
+
     node *cursor = head;
     while(cursor!=NULL)
     {
@@ -95,7 +98,7 @@ void traverse(node* head)
     node* cursor = head;
     while(cursor != NULL)
     {
-        print(cursor->data);
+        printf("%d\n", cursor->data);
         cursor = cursor->next;
     }
 }
@@ -159,19 +162,19 @@ void printstr(char *str)
 	int i;
 
 	i = 0;
-	//printf("--------------printstr-------------------------------\n");
+	////printf("--------------printstr-------------------------------\n");
 	while(str[i])
 	{
 		ft_putchar(str[i]);
 		i++;
 	}
 	//ft_putchar('!');
-	//printf("\n--------------printstr-------------------------------\n");
+	////printf("\n--------------printstr-------------------------------\n");
 }
 
 int  count_words(char *s)
 {
-	//printf("ft count_words :%s\n",s);
+	////printf("ft count_words :%s\n",s);
 
 	int i;
 	int valve;
@@ -209,7 +212,7 @@ char* make_a_cut(char *s, int a, int b)
 
 	if(a == b)
 	{
-		printf("make_a_cut  has fail \n");
+		//printf("make_a_cut  has fail \n");
 		return NULL;
 	}
 
@@ -230,19 +233,18 @@ char* make_a_cut(char *s, int a, int b)
 int count_char(char *s, int init)
 {
 	int i;
-	printf("__Enter__\n");
+	//printf("__Enter__\n");
 
 
 	while(s[init] != ' ' && s[init] != '\0')
 	{
 		i++;
 		init++;
-		printf("---?>%s\n", s);
+		//printf("---?>%s\n", s);
 	}
-	printf("%d\n", i);
+	//printf("%d\n", i);
 	return i;
 }
-
 
 char **f_strsplit(char *s)
 {
@@ -259,7 +261,7 @@ char **f_strsplit(char *s)
 
 	i = 0;
 	compare = 0;
-	
+
 
 	while(compare < count)
 	{
@@ -267,7 +269,7 @@ char **f_strsplit(char *s)
 			i++;
 		l = count_char(s,i);
 		segs[compare] = (char*)malloc(sizeof(char)*l);
-		printf("SEGS  Start%s\n", segs[compare]);
+		// printf("SEGS  Start%s\n", segs[compare]);
 		k = 0;
 		while(k < l)
 		{
@@ -275,7 +277,7 @@ char **f_strsplit(char *s)
 			k++;
 			i++;
 		}
-		printf("SEGS  End%s\n", segs[compare]);
+		//printf("SEGS  End%s\n", segs[compare]);
 			compare++;
 	}
 
@@ -284,7 +286,7 @@ char **f_strsplit(char *s)
 
 void print(int i)
 {
-	printf("$$$$$$$$$$$$$$$$$$$$$$$%d!\n",i);
+	//printf("$$$$$$$$$$$$$$$$$$$$$$$%d!\n",i);
 }
 
 
@@ -292,47 +294,116 @@ void algoritm(char **str, int size)
 {
 	int i;
 	int value;
-	struct node *list_a;
-	struct node *start;
+	struct node *list_a = NULL;
+	//struct node *start;
 
 
 	i = 0;
-	
+
 	while(i < size)
 	{
-		printf("-----SIZE-----\n");
-		value = ft_atoi(str[i]);
-		printf("EEEEEEEEEEE\n%d\n",value );		
-		list_a = prepend(list_a, value);
-		if (/* condition */ i == 0)
-		{
-			start = list_a->next;
-		}
-		printf("WWWWWWWWWWWWWWWW\n");
+		//printf("-----SIZE-----\n");
+		value = atoi(str[i]);
+		printf("--| %s\n", str[i]);
+		//printf("EEEEEEEEEEE\n%d\n",value );
+		append(&list_a, value);
+		//printf("WWWWWWWWWWWWWWWW\n");
 		i++;
 
-	} 
-	printf("WWWWWWWWWWWWWWWW\n");
-	
+	}
+	// traverse(list_a);
+
+	//printf("WWWWWWWWWWWWWWWW\n");
+	/*
 	while(start->next != NULL )
 	{
-		printf("----Try to print--------\n");
-		printf("%d\n", list_a->data);
+		//printf("----Try to print--------\n");
+		//printf("%d\n", list_a->data);
 		if(list_a->data == 99)
 			exit(0);
 	}
-	
+
     traverse(list_a);
-    
+    */
 
 }
 
+static int msh_word_is_delimiter(char c, char *delimiters, int dlen)
+{
+	for (int i = 0; i < dlen; i++)
+		if (c == delimiters[i])
+			return (1);
+	return (0);
+}
+
+static int msh_word_count(char *str, char *delimiters)
+{
+	int		count;
+	char	*index;
+	int		prev_is_delimiter;
+	int		dlen;
+	int		flag;
+
+	count = 0;
+	index = (char *)str;
+	prev_is_delimiter = 1;
+	dlen = strlen(delimiters);
+	while (*index)
+	{
+		flag = msh_word_is_delimiter(*index, (char *)delimiters, dlen);
+		if (prev_is_delimiter && !flag)
+			count++;
+		prev_is_delimiter = flag;
+		index++;
+	}
+	return (count);
+}
+
+static char *msh_word_extract(char **str, char *delimiters)
+{
+	char	*word;
+	char	*temp;
+	int		dlen;
+
+	dlen = strlen(delimiters);
+	while (**str && msh_word_is_delimiter(**str, delimiters, dlen))
+		(*str)++;
+	temp = *str;
+	while (*temp && !msh_word_is_delimiter(*temp, delimiters, dlen))
+		temp++;
+	word = (char *)malloc(temp - *str);
+	dlen = 0;
+	while (*str < temp)
+	{
+		word[dlen++] = **str;
+		(*str)++;
+	}
+	word[dlen] = '\0';
+	return (word);
+}
+
+char **msh_get_args(char *str, char *delimiters, int *args_len)
+{
+	char **arr;
+	char *strindex;
+
+	strindex = str;
+	*args_len = msh_word_count(strindex, delimiters);
+	if (*args_len == 0)
+		return (NULL);
+	arr = (char **)malloc(sizeof(char *) * (*args_len + 1));
+	for (int i = 0; i < *args_len; i++)
+		arr[i] = msh_word_extract(&strindex, delimiters);
+	arr[*args_len] = NULL;
+	return (arr);
+}
+
+
 int main(int a, char **b)
 {
-	
 	int len;
 	int k;
-	
+
 	k = 1;
 	len = 0;
 	if (a > 1)
@@ -353,37 +424,30 @@ int main(int a, char **b)
 	str = (char*)malloc(sizeof(char)*len );
 
 	k = 1;
-		while( a > k)
-		{
-			printf(">>>>>>>>%s!\n", b[k]);
+	while( a > k)
+	{
+		//printf(">>>>>>>>%s!\n", b[k]);
 		strcat(str, b[k]);
-			printf(">>>>>>>>%s!\n", str);
+		//printf(">>>>>>>>%s!\n", str);
 
 		strcat(str, " ");
-			printf(">>>>>>>>%s!\n", str);
+		//printf(">>>>>>>>%s!\n", str);
 		k++;
-		}
+	}
 
-	printstr(str);
+	// printstr(str);
 
-	printf("MAIN*-%s\n", str );
+	//printf("MAIN*-%s\n", str );
 
 
-char **list = f_strsplit(str);
+// char **list = f_strsplit(str);
 
-int i = count_words(str);
-while(i > 0)
-{
-	printf("/*Primul :%s\n", list[i - 1]);
-	i--;
-}
-	printf("**************%s\n",str );
-			printf("--------------\n");
+	int arglen;
+	char **list = msh_get_args(str, " ", &arglen);
+	// for (int i = 0; i < arglen; i++)
+	// 	printf("-- %s\n", list[i]);
 
-	i = count_words(str);	
-	algoritm(list, i);
+	algoritm(list, arglen);
 
 return 0;
 }
-
-
