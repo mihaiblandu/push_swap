@@ -9,12 +9,33 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
+int get_lenght(char c);
 
 typedef  struct node {
   int data;
  struct node *next;
 } node;
+
+
+typedef  struct nodes {
+int data;
+struct nodes *next;
+struct nodes * back;
+
+} nodes;
+
+
+
+struct node *list_a = NULL;
+struct node *list_b= NULL;
+
+
+
+struct nodes *LIST_A = NULL;
+struct nodes *LIST_B = NULL;
+
+
+
 
 
 void print(int i);
@@ -25,7 +46,6 @@ node* create(int data,node* next)
     node* new_node = (node*)malloc(sizeof(node));
     if(new_node == NULL)
     {
-        //printf("Error creating a new node.\n");
         exit(0);
     }
     new_node->data = data;
@@ -93,12 +113,12 @@ node* search(node* head,int data)
     return NULL;
 }
 
-void traverse(node* head)
+void traverse(node** head)
 {
-    node* cursor = head;
+    node* cursor = *head;
     while(cursor != NULL)
     {
-        printf("%d\n", cursor->data);
+    	printf("%d\n",cursor->data);
         cursor = cursor->next;
     }
 }
@@ -118,6 +138,208 @@ int		ft_strlen(const char *s)
 	return (i);
 }
 
+
+void sa()
+{
+	if(list_a->next->next != NULL)
+	{
+		struct node* temp;
+		temp = list_a->next;
+
+		list_a->next = list_a->next->next;
+		temp->next = list_a;
+		list_a =temp;
+
+	}
+	
+
+}
+
+
+void sb()
+{
+
+	if(list_b->next->next != NULL)
+	{
+		struct node* temp;
+		temp = list_b->next;
+
+		list_b->next = list_a->next->next;
+		temp->next = list_b;
+		list_b =temp;
+
+	}
+
+}
+void ss()
+{
+	sa();
+	sb();
+
+}
+void pa()
+{
+	struct node* temp;
+	temp = list_a;
+	list_a = list_a->next;
+	temp->next = list_b;
+	list_b = temp;
+}
+void pb()
+{
+	struct node* temp;
+	temp = list_b;
+	list_b = list_b->next;
+	temp->next = list_a;
+	list_a = temp;
+}
+
+void ra()
+{
+	struct node* temp;
+	struct node* cap;
+
+	temp = list_a;
+
+	list_a = list_a->next;
+	cap = list_a;
+	temp->next = NULL;
+	while(list_a->next != NULL)
+	{
+		list_a = list_a->next;
+	}
+	list_a->next = temp;
+	list_a = cap;
+}
+
+void rb()
+{
+	struct node* temp;
+	struct node* cap;
+
+	temp = list_b;
+
+	list_b = list_b->next;
+	cap = list_b;
+	temp->next = NULL;
+	while(list_b->next != NULL)
+	{
+		list_b = list_b->next;
+	}
+	list_b->next = temp;
+	list_b = cap;
+
+
+}
+
+void rr()
+{
+
+ra();
+rb();
+
+}
+
+
+void  rra()
+{
+	if(get_lenght('A') <= 1)
+		return ;
+
+	if (get_lenght('A') == 2)
+	{
+		ra();
+	}
+	else{
+		struct node* temp;
+		struct node* cap;
+		struct node* last;
+
+		temp = list_a;
+		cap = list_a;
+		while(temp->next->next != NULL)
+		{
+			temp = temp->next;
+		}
+		last = temp->next;
+		temp->next = NULL;
+
+		last->next = cap; 
+		list_a = last;
+
+
+
+	}
+}
+void  rrb()
+{
+	if(get_lenght('B') <= 1)
+		return ;
+
+	if (get_lenght('B') == 2)
+	{
+		rb();
+	}
+	else{
+		struct node* temp;
+		struct node* cap;
+		struct node* last;
+
+		temp = list_b;
+		cap = list_b;
+		while(temp->next->next != NULL)
+		{
+			temp = temp->next;
+		}
+		last = temp->next;
+		temp->next = NULL;
+
+		last->next = cap; 
+		list_b = last;
+
+	}
+
+}
+void rrr()
+{
+	rra();
+	rrb();
+}
+
+int get_lenght(char c)
+{
+	struct node* temp;
+	int i;
+
+	i = 0;
+	if (c == 'A')
+	{
+		temp = list_a;
+		while(temp->next != NULL )
+		{
+			temp = temp->next;
+			i++;
+		}
+	}
+	
+	if (c == 'B')
+	{
+		temp = list_b;
+		while(temp->next != NULL )
+		{
+			temp = temp->next;
+			i++;
+		}	
+	
+	}
+	if (temp)
+	{
+		i++;
+	}
+
+	return i;
+}
+
 char	*ft_strcat(char *s1, const char *s2)
 {
 	int			i;
@@ -130,6 +352,7 @@ char	*ft_strcat(char *s1, const char *s2)
 	*(s1 + j) = '\0';
 	return (s1);
 }
+
 
 int		ft_atoi(const char *str)
 {
@@ -162,19 +385,16 @@ void printstr(char *str)
 	int i;
 
 	i = 0;
-	////printf("--------------printstr-------------------------------\n");
 	while(str[i])
 	{
 		ft_putchar(str[i]);
 		i++;
 	}
-	//ft_putchar('!');
-	////printf("\n--------------printstr-------------------------------\n");
+
 }
 
 int  count_words(char *s)
 {
-	////printf("ft count_words :%s\n",s);
 
 	int i;
 	int valve;
@@ -203,130 +423,232 @@ int  count_words(char *s)
 }
 
 
-char* make_a_cut(char *s, int a, int b)
-{
-	int i;
-	int k = b - a;
-
-	i = 0;
-
-	if(a == b)
-	{
-		//printf("make_a_cut  has fail \n");
-		return NULL;
-	}
-
-	char *str = (char*)malloc(sizeof(char)* k + 1);
-
-	while(a < b)
-	{
-		str[i] = s[a];
-		i++;
-		a++;
-	}
-	str[a] = '\0';
-
-	return (str);
-
-}
-
 int count_char(char *s, int init)
 {
 	int i;
-	//printf("__Enter__\n");
 
-
+i = 0;
 	while(s[init] != ' ' && s[init] != '\0')
 	{
 		i++;
 		init++;
-		//printf("---?>%s\n", s);
 	}
-	//printf("%d\n", i);
 	return i;
-}
-
-char **f_strsplit(char *s)
-{
- 	printf( "Enter a value :%s\n", s);
-
-	int i;
-	int k;
-	int count = count_words(s);
-	int compare;
-	printf("%d\n", count);
-	int l;
-
-	char **segs = (char**)malloc(sizeof(char*)*count);
-
-	i = 0;
-	compare = 0;
-
-
-	while(compare < count)
-	{
-		while(s[i] == ' ')
-			i++;
-		l = count_char(s,i);
-		segs[compare] = (char*)malloc(sizeof(char)*l);
-		// printf("SEGS  Start%s\n", segs[compare]);
-		k = 0;
-		while(k < l)
-		{
-			segs[compare][k] = s[i];
-			k++;
-			i++;
-		}
-		//printf("SEGS  End%s\n", segs[compare]);
-			compare++;
-	}
-
-	return (segs);
 }
 
 void print(int i)
 {
-	//printf("$$$$$$$$$$$$$$$$$$$$$$$%d!\n",i);
+	printf("$$$$$$$$$$$$$$$$$$$$$$$%d!\n",i);
 }
 
 
+
+
+void shufle()
+{
+			
+
+	struct node*  first;
+	struct node*  second;
+	struct node*  last;
+
+	first = list_a;
+	second = first->next;
+	last = first->next;
+while(last->next != NULL)
+{
+	last = last->next;
+}
+if( first->data <= second->data && first->data <= last->data)
+{
+
+		list_a = list_a->next;
+
+		if (get_lenght('A'))
+		{			
+
+			list_b = first;
+			list_b->next = NULL;
+
+  		}
+  		else
+  		{
+
+  			first->next=list_b;
+  			list_b = first; 
+  		}
+
+  		pa();
+  		pa();pa();pa();pa();pa();pa();pa();pa();pa();pa();
+  		pb();  		pb();
+  		pb();
+  		pb();
+  		pb();
+  		pb();
+  		ra();ra();ra();ra();
+  		rb();rb();rb();
+
+  		rrr();rrr();rrr();
+
+
+  		
+		printf("Primul%d\n",list_a->data);
+		printf("Primul%d\n",list_b->data);
+
+			struct node* temp;
+
+		temp = list_a;
+		while(temp->next != NULL)
+			{
+				printf("TempA%d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempA%d\n", temp->data);
+				temp = list_b;
+		while(temp->next != NULL)
+			{
+				printf("TempB%d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempB%d\n", temp->data);
+		
+
+		printf("%d\n",list_a->data );
+		printf("%d\n",list_b->data );
+
+		printf("@@@@@,,,,,,,%d\n", get_lenght('A'));
+		printf("!!!!!!,,,,,,%d\n", get_lenght('B'));
+		printf("%s\n", "PB");
+
+
+		return;
+}
+
+
+if( second->data <= first->data && second->data <= last->data)
+	{
+		list_a = list_a->next;
+
+		if (get_lenght('A'))
+		{			
+
+			list_b = first;
+			list_b->next = NULL;
+
+  		}
+  		else
+  		{
+
+  			first->next=list_b;
+  			list_b = first; 
+  		}
+
+		printf("%d\n",list_a->data );
+
+		printf("@@@@@,,,,,,,%d\n", get_lenght('A'));
+		printf("!!!!!!,,,,,,%d\n", get_lenght('B'));
+
+		return;
+}
+if( last->data <= second->data && last->data <= first->data)
+	{
+	append(&list_b, last->data);
+		return;
+}
+}
+
+void test()
+{
+	printf("Primul%d\n",list_a->data);
+		printf("Primul%d\n",list_b->data);
+
+			struct node* temp;
+
+		temp = list_a;
+		while(temp->next != NULL)
+			{
+				printf("TempA%d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempA%d\n", temp->data);
+				temp = list_b;
+		while(temp->next != NULL)
+			{
+				printf("TempB%d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempB%d\n", temp->data);
+		
+
+		printf("%d\n",list_a->data );
+		printf("%d\n",list_b->data );
+
+		printf("@@@@@,,,,,,,%d\n", get_lenght('A'));
+		printf("!!!!!!,,,,,,%d\n", get_lenght('B'));
+		printf("%s\n", "PB");
+}
+
+
+
+
+void shufleReal()
+{
+			
+	//nu uita dimensiune
+
+	struct node*  first;
+	struct node*  second;
+	struct node*  last;
+
+	first = list_a;
+	second = first->next;
+	last = first->next;
+
+	while(last->next != NULL)
+	{
+		last = last->next;
+	}
+
+	if( first->data <= second->data && first->data <= last->data)
+		{
+			pa();
+		return;
+		}
+
+
+		if( second->data <= first->data && second->data <= last->data)
+		{
+		sa();
+		pa();
+		return;
+		}
+		if( last->data <= second->data && last->data <= first->data)
+		{
+		ra();
+		pa();
+		return;
+		}
+}
 void algoritm(char **str, int size)
 {
 	int i;
 	int value;
-	struct node *list_a = NULL;
-	//struct node *start;
 
 
 	i = 0;
 
 	while(i < size)
 	{
-		//printf("-----SIZE-----\n");
 		value = atoi(str[i]);
-		printf("--| %s\n", str[i]);
-		//printf("EEEEEEEEEEE\n%d\n",value );
 		append(&list_a, value);
-		//printf("WWWWWWWWWWWWWWWW\n");
 		i++;
 
 	}
-	// traverse(list_a);
+	
 
-	//printf("WWWWWWWWWWWWWWWW\n");
-	/*
-	while(start->next != NULL )
-	{
-		//printf("----Try to print--------\n");
-		//printf("%d\n", list_a->data);
-		if(list_a->data == 99)
-			exit(0);
-	}
-
-    traverse(list_a);
-    */
-
+	shufleReal();	
 }
+
 
 static int msh_word_is_delimiter(char c, char *delimiters, int dlen)
 {
@@ -399,6 +721,7 @@ char **msh_get_args(char *str, char *delimiters, int *args_len)
 }
 
 
+
 int main(int a, char **b)
 {
 	int len;
@@ -426,26 +749,17 @@ int main(int a, char **b)
 	k = 1;
 	while( a > k)
 	{
-		//printf(">>>>>>>>%s!\n", b[k]);
 		strcat(str, b[k]);
-		//printf(">>>>>>>>%s!\n", str);
 
 		strcat(str, " ");
-		//printf(">>>>>>>>%s!\n", str);
 		k++;
 	}
 
-	// printstr(str);
 
-	//printf("MAIN*-%s\n", str );
-
-
-// char **list = f_strsplit(str);
-
+	
 	int arglen;
 	char **list = msh_get_args(str, " ", &arglen);
-	// for (int i = 0; i < arglen; i++)
-	// 	printf("-- %s\n", list[i]);
+
 
 	algoritm(list, arglen);
 
