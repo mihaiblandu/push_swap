@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 int get_lenght(char c);
+static int  COUNTER = 0;
 
 typedef  struct node {
   int data;
@@ -141,6 +142,8 @@ int		ft_strlen(const char *s)
 
 void sa()
 {
+	COUNTER++;
+	printf(" SA ");
 	if(list_a->next->next != NULL)
 	{
 		struct node* temp;
@@ -158,6 +161,8 @@ void sa()
 
 void sb()
 {
+	COUNTER++;
+	printf(" SB ");
 
 	if(list_b->next->next != NULL)
 	{
@@ -180,7 +185,8 @@ void ss()
 
 void pa()
 {
-	printf("functie PA\n");
+	COUNTER++;
+	printf(" PA ");
 	struct node* temp;
 	if (get_lenght('A') == 1)
 	{
@@ -199,6 +205,8 @@ void pa()
 }
 void pb()
 {
+	COUNTER++;
+	printf(" PB ");
 	struct node* temp;
 	temp = list_b;
 	list_b = list_b->next;
@@ -208,6 +216,8 @@ void pb()
 
 void ra()
 {
+	COUNTER++;
+	printf(" RA ");
 	struct node* temp;
 	struct node* cap;
 
@@ -226,6 +236,8 @@ void ra()
 
 void rb()
 {
+	COUNTER++;
+	printf(" RB ");
 	struct node* temp;
 	struct node* cap;
 
@@ -255,6 +267,8 @@ rb();
 
 void  rra()
 {
+	COUNTER++;
+	printf(" RRA ");
 	if(get_lenght('A') <= 1)
 		return ;
 
@@ -285,6 +299,8 @@ void  rra()
 }
 void  rrb()
 {
+	COUNTER++;
+	printf(" RRA ");
 	if(get_lenght('B') <= 1)
 		return ;
 
@@ -463,32 +479,21 @@ void print(int i)
 
 
 
-int is_sort(char c)
+int is_sort()
 {
 	struct node*  temp;
-	if(c == 'A')
-		{
+	
 			temp = list_a;
 			while(temp->next != NULL)
 			{
+				if(temp->data > temp->next->data)
+					return 1;
 				temp = temp->next; 
 			}
-
-		}
-	if(c == 'B')
-		{
-			temp = list_b;
-			while(temp->next != NULL)
-			{
-				temp = temp->next; 
-
-			}
-
-		}
 
 	return 0;
 }
-
+/*
 void shufle()
 {
 			
@@ -601,10 +606,10 @@ if( last->data <= second->data && last->data <= first->data)
 		return;
 }
 }
-
+*/
 void test()
 {
-	printf("Run test\n");
+	printf("\nRun test\n");
 	if(get_lenght('A') == 0){
 		printf("Primul%d\n",list_b->data);
 		printf("\n Stiva A");
@@ -630,8 +635,8 @@ void test()
 
 		}
 			if(get_lenght('B') == 0){
-		printf("Primul%d\n",list_a->data);
-		printf("\n Stiva A");
+		//printf("Primul%d\n",list_a->data);
+		//printf("\n Stiva A");
 
 			struct node* temp;
 
@@ -656,8 +661,8 @@ void test()
 
 
 
-		printf("Primul%d\n",list_a->data);
-		printf("Primul%d\n",list_b->data);
+		//printf("Primul%d\n",list_a->data);
+		//printf("Primul%d\n",list_b->data);
 
 			struct node* temp;
 
@@ -668,7 +673,7 @@ void test()
 				printf(" %d ", temp->data);
 				temp = temp->next;
 			}
-			printf(" %d \n", temp->data);
+			//printf(" %d \n", temp->data);
 				temp = list_b;
 				printf("\n Stiva B");
 		while(temp->next != NULL)
@@ -708,19 +713,18 @@ void shufleLocalA()
 	{
 		last = last->next;
 	}
-printf("LOCALs A\n");
 
 	if( first->data >= second->data && first->data <= last->data)
 		{
 			sa();
-			test();
+		
 		return;
 		}
 
 		if( first->data >= second->data && first->data >= first->data)
 		{
 		rra();
-		test();
+	
 		return;
 		}
 
@@ -746,12 +750,10 @@ void shufleLocalB()
 	{
 		last = last->next;
 	}
-printf("LOCALs B\n");
 
 	if( first->data <= second->data && first->data <= last->data)
 		{
 			rrb();
-			test();
 		return;
 		}
 
@@ -759,7 +761,6 @@ printf("LOCALs B\n");
 		if( first->data <=second->data && first->data >= last->data)
 		{
 		sb();
-		test();
 		return;
 		}
 	
@@ -800,7 +801,6 @@ void shufleRealA()
 	if(get_lenght('A') == 1)
 		{
 			pa();
-			test();
 			return;
 		}
 	if(get_lenght('A') == 2)
@@ -825,14 +825,12 @@ void shufleRealA()
 	if( first->data <= second->data && first->data <= last->data)
 		{
 			pa();
-			test();
 		return;
 		}
 		if( first->data <= second->data && first->data >= last->data)
 		{
 			rra();
 			pa();
-			test();
 		return;
 		}
 
@@ -841,14 +839,12 @@ void shufleRealA()
 		{
 		sa();
 		pa();
-		test();
 		return;
 		}
 		if( last->data <= second->data && last->data <= first->data)
 		{
 		ra();
 		pa();
-		test();
 		return;
 		}
 
@@ -856,11 +852,8 @@ void shufleRealA()
 
 void shufleRealB()
 {
-	printf("Shuffle B\n");	
 	//printf("@@@@@@@@@\n");
 	//test();
-	printf("@@@@@@@@@\n");
-
 
 
 			
@@ -892,42 +885,35 @@ void shufleRealB()
 //printf("Print data %d | %d | %d |\n", first->data, second->data, last->data);
 	if( first->data >= second->data && first->data >= last->data)
 		{
-			printf("U");
 			pb();
 
 
-			test();
 		return;
 		}
 
 		if( first->data >= second->data && first->data <= last->data)
 		{
-			printf("U");
 			rrb();
 			pb();
 
 
-			test();
 		return;
 		}
 
 
 		if( second->data >= first->data && second->data >= last->data)
 		{
-			printf("D");
 		sb();
 		pb();
-		test();
+	
 
 		return;
 		}
 
 		if( last->data >= second->data && last->data >= first->data)
 		{
-			printf("T");
 		rb();
 		pb();
-		test();
 
 		return;
 		}
@@ -948,6 +934,10 @@ void algoritm(char **str, int size)
 		i++;
 
 	}
+
+	printf("\n%d\n",get_lenght('A'));
+	while(is_sort())
+	{
 	i = 0;
 while(i < size)
 	{	
@@ -964,88 +954,11 @@ while(i < size)
 		i++;
 	
 	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealA();
-		shufleLocalB();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealB();
-		shufleLocalA();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealA();
-		shufleLocalB();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealB();
-		shufleLocalA();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealA();
-		shufleLocalB();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealB();
-		shufleLocalA();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealA();
-		shufleLocalB();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealB();
-		shufleLocalA();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealA();
-		shufleLocalB();
-		i++;
-	
-	}
-	i = 0;
-while(i < size)
-	{	
-		shufleRealB();
-		shufleLocalA();
-		i++;
-	
 	}
 
 	test();
+
+	printf("Astai suma totala %d\n", COUNTER);
 }
 
 
