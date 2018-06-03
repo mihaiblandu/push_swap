@@ -164,7 +164,7 @@ void sb()
 		struct node* temp;
 		temp = list_b->next;
 
-		list_b->next = list_a->next->next;
+		list_b->next = list_b->next->next;
 		temp->next = list_b;
 		list_b =temp;
 
@@ -180,6 +180,16 @@ void ss()
 void pa()
 {
 	struct node* temp;
+	if (get_lenght('A') == 1)
+	{
+		/* code */
+
+	temp = list_a;
+	temp->next = list_b;
+	list_b = temp;
+	list_a = NULL;  
+		return;
+	}
 	temp = list_a;
 	list_a = list_a->next;
 	temp->next = list_b;
@@ -312,8 +322,12 @@ int get_lenght(char c)
 	int i;
 
 	i = 0;
+
 	if (c == 'A')
 	{
+		if(!list_a)
+			return 0;
+
 		temp = list_a;
 		while(temp->next != NULL )
 		{
@@ -324,6 +338,8 @@ int get_lenght(char c)
 	
 	if (c == 'B')
 	{
+		if(!list_b)
+			return 0;
 		temp = list_b;
 		while(temp->next != NULL )
 		{
@@ -559,7 +575,58 @@ if( last->data <= second->data && last->data <= first->data)
 
 void test()
 {
-	printf("Primul%d\n",list_a->data);
+	printf("Run test\n");
+	if(get_lenght('A') == 0){
+		printf("Primul%d\n",list_b->data);
+
+			struct node* temp;
+
+		temp = list_b;
+		while(temp->next != NULL)
+			{
+				printf("TempB  %d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempB  %d\n", temp->data);
+				temp = list_b;
+		
+
+	
+		printf("%d\n",list_b->data );
+
+	
+		printf("!!!!!!,,,,,,%d\n", get_lenght('B'));
+		printf("%s\n", "PB");
+		return;
+
+		}
+			if(get_lenght('B') == 0){
+		printf("Primul%d\n",list_a->data);
+
+			struct node* temp;
+
+		temp = list_a;
+		while(temp->next != NULL)
+			{
+				printf("TempA  %d\n", temp->data);
+				temp = temp->next;
+			}
+			printf("TempA  %d\n", temp->data);
+				temp = list_a;
+		
+
+	
+		printf("%d\n",list_a->data );
+
+	
+		printf("!!!!!!,,,,,,%d\n", get_lenght('A'));
+		printf("%s\n", "PA");
+		return;
+	}
+
+
+
+		printf("Primul%d\n",list_a->data);
 		printf("Primul%d\n",list_b->data);
 
 			struct node* temp;
@@ -567,17 +634,17 @@ void test()
 		temp = list_a;
 		while(temp->next != NULL)
 			{
-				printf("TempA%d\n", temp->data);
+				printf("TempA  %d\n", temp->data);
 				temp = temp->next;
 			}
-			printf("TempA%d\n", temp->data);
+			printf("TempA  %d\n", temp->data);
 				temp = list_b;
 		while(temp->next != NULL)
 			{
-				printf("TempB%d\n", temp->data);
+				printf("TempB  %d\n", temp->data);
 				temp = temp->next;
 			}
-			printf("TempB%d\n", temp->data);
+			printf("TempB  %d\n", temp->data);
 		
 
 		printf("%d\n",list_a->data );
@@ -588,13 +655,106 @@ void test()
 		printf("%s\n", "PB");
 }
 
+void shufleLocalA()
+{
+	if(get_lenght('A') <= 2)
+		{
+	
+			return;
+		}
 
 
+	struct node*  first;
+	struct node*  second;
+	struct node*  last;
 
-void shufleReal()
+	first = list_a;
+	second = first->next;
+	last = first->next;
+
+	while(last->next != NULL)
+	{
+		last = last->next;
+	}
+
+	if( first->data >= second->data && first->data <= last->data)
+		{
+			sa();
+			test();
+		return;
+		}
+
+
+		if( second->data <= first->data && second->data <= last->data)
+		{
+		sa();
+		test();
+		return;
+		}
+		if( last->data <= second->data && last->data <= first->data)
+		{
+		rra();
+		test();
+		return;
+		}
+
+}
+
+void shufleLocalB()
+{
+	if(get_lenght('B') <= 2)
+		{
+	
+			return;
+		}
+
+
+	struct node*  first;
+	struct node*  second;
+	struct node*  last;
+
+	first = list_b;
+	second = first->next;
+	last = first->next;
+	while(last->next != NULL)
+	{
+		last = last->next;
+	}
+printf("LOCALs\n");
+
+	if( first->data <= second->data && first->data >= last->data)
+		{
+			sb();
+			test();
+		return;
+		}
+
+
+		if( second->data <= first->data && second->data <= last->data)
+		{
+		sb();
+		test();
+		return;
+		}
+		if( last->data <= second->data && last->data <= first->data)
+		{
+		rrb();
+		test();
+		return;
+		}
+
+}
+
+void shufleRealA()
 {
 			
-	//nu uita dimensiune
+	if(get_lenght('A') == 1)
+		{
+			pa();
+			test();
+			return;
+		}
+
 
 	struct node*  first;
 	struct node*  second;
@@ -612,6 +772,7 @@ void shufleReal()
 	if( first->data <= second->data && first->data <= last->data)
 		{
 			pa();
+			test();
 		return;
 		}
 
@@ -620,14 +781,81 @@ void shufleReal()
 		{
 		sa();
 		pa();
+		test();
 		return;
 		}
 		if( last->data <= second->data && last->data <= first->data)
 		{
 		ra();
 		pa();
+		test();
 		return;
 		}
+
+}
+
+void shufleRealB()
+{
+	printf("Shuffle B\n");	
+	//printf("@@@@@@@@@\n");
+	//test();
+	printf("@@@@@@@@@\n");
+
+
+			
+	if(get_lenght('B') == 1)
+		{
+			pb();
+			//test();
+			return;
+		}
+
+
+	struct node*  first;
+	struct node*  second;
+	struct node*  last;
+
+	first = list_b;
+	second = first->next;
+	last = first->next;
+
+	while(last->next != NULL)
+	{
+		last = last->next;
+	}
+
+printf("Print data %d | %d | %d |\n", first->data, second->data, last->data);
+	if( first->data >= second->data && first->data >= last->data)
+		{
+			printf("U");
+			pb();
+
+
+			test();
+		return;
+		}
+
+
+		if( second->data >= first->data && second->data >= last->data)
+		{
+			printf("D");
+		sb();
+		pb();
+		test();
+
+		return;
+		}
+
+		if( last->data >= second->data && last->data >= first->data)
+		{
+			printf("T");
+		rb();
+		pb();
+		test();
+
+		return;
+		}
+
 }
 void algoritm(char **str, int size)
 {
@@ -644,9 +872,24 @@ void algoritm(char **str, int size)
 		i++;
 
 	}
+	i = 0;
+while(i < size)
+	{	
+		shufleRealA();
+		shufleLocalB();
+		i++;
 	
+	}
+	i = 0;
+while(i < size)
+	{	
+		shufleRealB();
+		shufleLocalA();
+		i++;
+	
+	}
 
-	shufleReal();	
+	test();
 }
 
 
